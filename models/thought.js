@@ -16,9 +16,18 @@ const ReactionSchema = new Schema(
             type: String,
             required: true
         },
-        createdAt:{
+        createdAt: {
             type: Date,
-            default: Date.now
+            default: Date.now,
+            get: (date) => {
+                if (date) return date.toISOString().split("T")[0];
+            },
+        }
+    },
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true
         }
     }
 );
@@ -35,7 +44,10 @@ const ThoughtSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            default: Date.now
+            default: Date.now,
+            get: (date) => {
+                if (date) return date.toISOString().split("T")[0];
+            },
         },
         username: {
             type: String,
@@ -45,7 +57,8 @@ const ThoughtSchema = new Schema(
     },
     {
         toJSON: {
-            virtuals: true
+            virtuals: true,
+            getters: true
         },
         id: false
     }

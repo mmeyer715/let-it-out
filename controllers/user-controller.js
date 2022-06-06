@@ -68,13 +68,48 @@ const userController = {
             console.log(err);
             res.status(400).json(err)
         });
-    }
+    },
 // ***BONUS*** remove a user's associated thoughts when deleted
 
-/* /api/users/:userId/friends/:friendId */
-
 // POST to add a new friend to a user's friend list
-// DELETE to remove a friend from a user's friend list
+    addFriend({ params }, res) {
+        User.findOneAndUpdate(
+            { _id: params.userId },
+            { $addToSet: { friends: params.friendId }},
+            { new: true, runValidators: true }
+        )
+        .then(userData => {
+            if(!userData) {
+                res.status(404).json({ message: 'No user found with this id!'});
+                return;
+            }
+            res.json(userData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(400).json({ message: 'No friend found with this id!'});
+        });
+    },
+
+    // DELETE to remove a friend from a user's friend list
+    deleteFriend({ params }, res) {
+        User.findOneAndUpdate(
+            { _id: params.userId },
+            { $pull: { friends: params.friendId }},
+            { new: true }
+        )
+        .then(userData => {
+            if(!userData) {
+                res.status(404).json({ message: 'No user found with this id'});
+                return;
+            }
+            res.json({ message: 'Friend deleted successfully!'});
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err);
+        });
+    }
 }
 
 module.exports = userController;
