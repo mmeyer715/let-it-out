@@ -1,7 +1,6 @@
 const { Thought, User } = require('../models');
 
 const thoughtController = {
-    /* /api/thoughts */
     // GET to get all thoughts
     getAllThoughts(req, res) {
         Thought.find({})
@@ -27,8 +26,6 @@ const thoughtController = {
             });
     },
     // POST to create a new thought 
-    // (don't forget to push the created thought's _id 
-    //to the associated user's thoughts array field)
     createThought({ body }, res) {
         Thought.create(body)
             .then(({ _id }) => {
@@ -43,7 +40,7 @@ const thoughtController = {
                     res.status(404).json({ message: 'No thought found with this id!' });
                     return;
                 }
-                res.json(thoughtData);
+                res.status(200).json({message: 'Thought created successfully!'});
             })
             .catch(err => {
                 console.log(err);
@@ -58,7 +55,7 @@ const thoughtController = {
                 res.status(404).json({ message: 'No thought found with this id!'});
                 return;
             }
-            res.json(thoughtData);
+            res.json({message: 'Thought updated successfully!'});
         })
         .catch(err => {
             console.log(err);
@@ -81,8 +78,7 @@ const thoughtController = {
         });
     },
 
-    // POST to create a reaction stored in a 
-    //single thought's reactions array field
+    // POST to create a reaction stored in a single thought's reactions array field
     createReaction({ params, body }, res) {
         Thought.findOneAndUpdate(
             { _id: params.thoughtId },
@@ -94,16 +90,14 @@ const thoughtController = {
                 res.status(404).json({ message: 'No thought found with this id!'});
                 return;
             }
-            res.json({ message: 'Reaction created successfully!'});
+            res.status(200).json({ message: 'Reaction created successfully!'});
         })
         .catch(err => {
             console.log(err);
             res.status(400).json(err);
         });
     },
-
-    // DELETE to pull and remove a reaction 
-    //by the reaction's reactionId value
+    // DELETE to pull and remove a reaction by the reaction's reactionId value
     deleteReaction({ params }, res) {
         Thought.findOneAndUpdate(
             { _id: params.thoughtId },
@@ -111,7 +105,7 @@ const thoughtController = {
             { new: true}
         )
         .then(thoughtData => {
-            res.json( {message: 'Reaction removed scessfully!'});
+            res.json({message: 'Reaction removed scessfully!'});
         })
         .catch(err => {
             console.log(err);

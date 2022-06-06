@@ -32,7 +32,7 @@ const userController = {
     createUser(req, res) {
         User.create(req.body)
             .then((userData) => {
-                res.status(200).json(userData)
+                res.status(200).json({message: 'User created successfully!'})
             })
             .catch(err => {
                 console.log(err);
@@ -47,7 +47,7 @@ const userController = {
                 res.status(404).json({ message: 'No user found with this id!'});
                 return;
             }
-            res.json(userData);
+            res.status(200).json({message: 'User updated successfully'});
         })
         .catch(err => {
             console.log(err);
@@ -62,7 +62,7 @@ const userController = {
                 res.status(404).json({ message: 'No user found with this id!'});
                 return;
             }
-            res.json(userData);
+            res.json({message: 'User deleted successfully!'});
         })
         .catch(err => {
             console.log(err);
@@ -83,7 +83,7 @@ const userController = {
                 res.status(404).json({ message: 'No user found with this id!'});
                 return;
             }
-            res.json(userData);
+            res.json({message: 'Friend added Successfully!'});
         })
         .catch(err => {
             console.log(err);
