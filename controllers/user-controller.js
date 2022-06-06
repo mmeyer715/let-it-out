@@ -31,13 +31,6 @@ const userController = {
     },
 
 // POST a new user
-/* 
-example data
-    {
-        "username": "lernantino",
-        "email": "lernantion@gmail.com"
-    }
-*/
     createUser(req, res) {
         User.create(req.body)
             .then((userData) => {
@@ -47,9 +40,37 @@ example data
                 console.log(err);
                 res.status(400).json(err);
             });
-    }
-// PUT to update  a user by its _d
+    },
+// PUT to update  a user by its _id
+    updateUserbyId({ params, body }, res) {
+        User.findOneAndUpdate({ _id: params.id}, body, { new: true})
+        .then(userData => {
+            if (!userData) {
+                res.status(404).json({ message: 'No user found with this id!'});
+                return;
+            }
+            res.json(userData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err)
+        });
+    },
 // DELETE to remove user by its _id
+    deleteUser({ params }, res) {
+        User.findOneAndDelete({ _id: params.id })
+        .then(userData => {
+            if (!userData) {
+                res.status(404).json({ message: 'No user found with this id!'});
+                return;
+            }
+            res.json(userData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err)
+        });
+    }
 // ***BONUS*** remove a user's associated thoughts when deleted
 
 /* /api/users/:userId/friends/:friendId */
