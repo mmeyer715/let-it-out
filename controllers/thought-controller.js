@@ -51,8 +51,35 @@ const thoughtController = {
             });
     },
     // PUT to update a thought by its _id
+    updateThoughtById({ params, body }, res) {
+        Thought.findByIdAndUpdate({ _id: params.id}, body, {new: true})
+        .then(thoughtData => {
+            if (!thoughtData) {
+                res.status(404).json({ message: 'No thought found with this id!'});
+                return;
+            }
+            res.json(thoughtData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err);
+        });
+    },
     // DELETE to remove a thought by its _id
-
+    deleteThought({ params }, res) {
+        Thought.findOneAndDelete({ _id: params.id })
+        .then(thoughtData => {
+            if (!thoughtData) {
+                res.status(404).json({ message: 'No thought found with this id!'});
+                return;
+            }
+            res.json({ message: 'Thought deleted successfully!'});
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err);
+        });
+    },
     /* /api/thoughts/:thoughtId/reactions */
 
     // POST to create a reaction stored in a single thought's reactions array field
