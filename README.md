@@ -41,6 +41,14 @@ https://user-images.githubusercontent.com/95265770/172207339-fe981861-4a1c-487c-
 https://user-images.githubusercontent.com/95265770/172207697-10dab669-9d31-4e4c-a4dd-24a49a3d2b36.mp4
 
 
+
+## Bonus Functionality
+When deleting user, their associated thoughts are also deleted
+https://user-images.githubusercontent.com/95265770/174133722-def9eea1-8686-4825-959e-9c0dcf430b39.mp4
+
+
+
+
   ## License
   1. ISC
   
